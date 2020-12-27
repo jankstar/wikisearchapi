@@ -51,7 +51,7 @@ func GetSearchWiki(langu string, srlimit int, query string) (SearchWikiResponse,
 		langu = "de"
 	}
 
-	if srlimit == 0 {
+	if srlimit <= 0 {
 		srlimit = 1
 	}
 
