@@ -6,8 +6,9 @@ import (
 
 func TestGetSearchWiki(t *testing.T) {
 	type args struct {
-		langu string
-		query string
+		langu   string
+		srlimit int
+		query   string
 	}
 	tests := []struct {
 		name    string
@@ -18,14 +19,15 @@ func TestGetSearchWiki(t *testing.T) {
 		{
 			name: "WikiTest",
 			args: args{
-				langu: "de-DE",
-				query: "Oben"},
+				langu:   "de-DE",
+				srlimit: 2,
+				query:   "Oben"},
 			want:    "Oben",
 			wantErr: false},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got, err := GetSearchWiki(tt.args.langu, tt.args.query)
+			got, err := GetSearchWiki(tt.args.langu, tt.args.srlimit, tt.args.query)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("GetSearchWiki() error = %v, wantErr %v", err, tt.wantErr)
 				return

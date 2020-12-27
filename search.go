@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"net/http"
 	"net/url"
+	"strconv"
 )
 
 const (
@@ -43,14 +44,19 @@ type SearchWikiResponse struct {
 }
 
 //GetSearchWiki searches the query in the WIKI in the language langu
-func GetSearchWiki(langu string, query string) (SearchWikiResponse, error) {
+func GetSearchWiki(langu string, srlimit int, query string) (SearchWikiResponse, error) {
 	var dst SearchWikiResponse
 
 	if langu == "" {
 		langu = "de"
 	}
+
+	if srlimit == 0 {
+		srlimit = 1
+	}
+
 	myURL := fmt.Sprintf(urlWiki, langu[0:2])
-	myURL = myURL + "?action=query&format=json&list=search&srlimit=1&srsearch=" + url.QueryEscape(query)
+	myURL = myURL + "?action=query&format=json&list=search&srlimit=" + strconv.Itoa(srlimit) + "&srsearch=" + url.QueryEscape(query)
 	res, err1 := http.Get(myURL)
 	if err1 != nil || res.StatusCode != 200 {
 		return dst, err1
